@@ -60,8 +60,8 @@ const Index = () => {
             Reflective-Next
           </h1>
           <p>
-            Demonstrating various ways of importing dynamically-generated code
-            in NextJS.
+            Demonstrating various ways of importing dynamically-generated React
+            components in NextJS.
           </p>
           <p>
             See{" "}
