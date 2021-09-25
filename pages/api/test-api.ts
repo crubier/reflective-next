@@ -62,6 +62,11 @@ const handler = async (
   //   console.error(`    ${file}`);
   // });
 
+  const nodeModulesLocation = require.resolve('next');
+  console.error("nodeModulesLocation", nodeModulesLocation);
+  console.error("__dirname", __dirname);
+  console.error("process.cwd()", process.cwd());
+
   console.error("Listing swc files from own node_modules");
   (await promises.readdir(`${process.cwd()}/node_modules/@swc`)).forEach(file => {
     console.error(`    ${file}`);
