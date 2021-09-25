@@ -5,15 +5,15 @@ import crypto from 'crypto';
 
 
 const codeEntry = `import * as React from "react";
-const TestApi = () => {
+const TestApiSwc = () => {
   return (
     <div>
-      <p>This component is loaded dynamically by dynamically transpiling a string containing Typescript code with SWC in a NextJS API route.<br/>See ./pages/test-api.ts</p>
+      <p>This component is loaded dynamically by dynamically transpiling a string containing Typescript code with SWC in a NextJS API route.<br/>See ./pages/test-api-swc.ts</p>
     </div>
   );
 };
 
-export default TestApi;
+export default TestApiSwc;
 `
 
 const handler = async (
@@ -36,7 +36,7 @@ const handler = async (
   }
 
   // Ensure we have our own dir in the temp dir to let swc work on
-  const selfDir = `/tmp/reflective-next`;
+  const selfDir = `/tmp/reflective-next-swc`;
   if (!(await promises.stat(selfDir).catch(err => {
     if (err.code === "ENOENT") {
       return { isDirectory: () => false }
@@ -47,7 +47,7 @@ const handler = async (
   }
 
   // Ensure we have a symlink node_modules into our own dir
-  const nodeModulesDir = `/tmp/reflective-next/node_modules`;
+  const nodeModulesDir = `/tmp/reflective-next-swc/node_modules`;
   if (!(await promises.stat(nodeModulesDir).catch(err => {
     if (err.code === "ENOENT") {
       return { isDirectory: () => false }
@@ -59,7 +59,7 @@ const handler = async (
 
 
   // // OR Ensure we have a copy of node_modules into our own dir
-  // const nodeModulesDir = `/tmp/reflective-next/node_modules`;
+  // const nodeModulesDir = `/tmp/reflective-next-swc/node_modules`;
   // if (!(await promises.stat(nodeModulesDir).catch(err => {
   //   if (err.code === "ENOENT") {
   //     return { isDirectory: () => false }
@@ -125,7 +125,7 @@ const handler = async (
     await promises.writeFile(outputFile, codeOutput, { encoding: 'utf8' })
     res.setHeader('Content-Type', 'application/javascript');
     res.status(200).send(codeOutput);
-    console.log("Returned without cache")
+    console.log("Returned swc without cache")
     return;
   }
 
@@ -133,7 +133,7 @@ const handler = async (
   const codeOutput = await promises.readFile(outputFile, { encoding: 'utf8' })
   res.setHeader('Content-Type', 'application/javascript');
   res.status(200).send(codeOutput);
-  console.log("Returned from cache")
+  console.log("Returned swc from cache")
   return;
 
 }
