@@ -77,7 +77,7 @@ const TestApiRollup = dynamic(
 const Index = () => {
   return (
     <Layout
-      title="Loading 4 react components in increasingly dynamic ways with NextJS, ReactSuspense and SWC"
+      title="Loading 5 react components in increasingly dynamic ways with NextJS and ReactSuspense"
       navigation={navigation}
       userNavigation={userNavigation}
     >
