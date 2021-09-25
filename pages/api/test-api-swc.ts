@@ -8,7 +8,7 @@ import crypto from 'crypto';
 const codeEntry = `import * as React from "react";
 const TestApiSwc = () => {
   return (
-    <div>
+    <div className="prose">
       <p>
         This component is loaded dynamically by dynamically transpiling a string containing Typescript code with SWC in a NextJS API route.
         <br />
@@ -18,7 +18,10 @@ const TestApiSwc = () => {
         <br />
         🟡 Performance (SWC is blazing fast, allowing to transpile at runtime without being too slow)
         <br />
-        See ./pages/test-api-swc.ts
+        See{" "}
+        <a href="https://github.com/crubier/reflective-next/blob/main/pages/api/test-api-swc.ts">
+          ./pages/api/test-api-swc.ts
+        </a>
       </p>
     </div>
   );

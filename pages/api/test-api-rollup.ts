@@ -26,7 +26,7 @@ console.log(babelPresetReact, babelPresetTypescript, babelPresetEnv)
 const codeEntry = `import * as React from "react";
 const TestApiRollup = () => {
   return (
-    <div>
+    <div className="prose">
       <p>
         This component is loaded dynamically by dynamically transpiling a string containing Typescript code with Rollup and Babel in a NextJS API route.
         <br />
@@ -36,7 +36,10 @@ const TestApiRollup = () => {
         <br />
         🔴 Performance (Rollup and Babel transpilation at runtime, coded in JS, pretty slow)
         <br />
-        See ./pages/test-api-rollup.ts
+        See{" "}
+        <a href="https://github.com/crubier/reflective-next/blob/main/pages/api/test-api-rollup.ts">
+          ./pages/api/test-api-rollup.ts
+        </a>
       </p>
     </div>
   );

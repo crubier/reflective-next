@@ -55,7 +55,7 @@ const Index = () => {
   return (
     <div className="p-12 space-y-12">
       <div>
-        <div className="prose prose-indigo prose-lg text-gray-500 lg:max-w-none">
+        <div className="prose">
           <h1 className="text-3xl text-gray-900 font-extrabold tracking-tight sm:text-4xl">
             Reflective-Next
           </h1>

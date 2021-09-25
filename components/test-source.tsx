@@ -1,6 +1,6 @@
 const TestSource = () => {
   return (
-    <div>
+    <div className="prose">
       <p>
         This component is loaded dynamically from a source Typescript file, the
         classic way for dynamic imports in NextJS.
@@ -14,7 +14,10 @@ const TestSource = () => {
         🟢 Performance (Only loading required at run-time, can be preloaded
         automatically with webpack)
         <br />
-        See ./components/test-source.tsx
+        See{" "}
+        <a href="https://github.com/crubier/reflective-next/blob/main/components/test-source.tsx">
+          ./components/test-source.tsx
+        </a>
       </p>
     </div>
   );

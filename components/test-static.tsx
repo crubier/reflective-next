@@ -1,6 +1,6 @@
 const TestStatic = () => {
   return (
-    <div>
+    <div className="prose">
       <p>
         This component is loaded statically with a normal import.
         <br />
@@ -11,7 +11,10 @@ const TestStatic = () => {
         <br />
         🟢 Performance (This component is directly part of the bundle)
         <br />
-        See ./components/test-static.tsx
+        See{" "}
+        <a href="https://github.com/crubier/reflective-next/blob/main/components/test-static.tsx">
+          ./components/test-static.tsx
+        </a>
       </p>
     </div>
   );
