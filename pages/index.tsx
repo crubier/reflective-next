@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import dynamic from "next/dynamic";
-
+import { ErrorBoundary } from "react-error-boundary";
 import {
   CalendarIcon,
   ChartBarIcon,
@@ -26,6 +26,15 @@ const userNavigation = [
   { name: "Settings", href: "#" },
   { name: "Sign out", href: "#" },
 ];
+
+function ErrorFallback({ error }: { error: { message: string } }) {
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre>{error.message}</pre>
+    </div>
+  );
+}
 
 const TestSource = dynamic(() => import("../components/test-source"), {
   suspense: true,
@@ -60,25 +69,33 @@ const Index = () => {
       <div className="py-4">
         <ul className="space-y-6">
           <li>
-            <TestStatic />
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <TestStatic />
+            </ErrorBoundary>
           </li>
 
           <li>
-            <Suspense fallback={<div>Loading...</div>}>
-              <TestSource />
-            </Suspense>
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <Suspense fallback={<div>Loading...</div>}>
+                <TestSource />
+              </Suspense>
+            </ErrorBoundary>
           </li>
 
           <li>
-            <Suspense fallback={<div>Loading...</div>}>
-              <TestPublic />
-            </Suspense>
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <Suspense fallback={<div>Loading...</div>}>
+                <TestPublic />
+              </Suspense>
+            </ErrorBoundary>
           </li>
 
           <li>
-            <Suspense fallback={<div>Loading...</div>}>
-              <TestApi />
-            </Suspense>
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <Suspense fallback={<div>Loading...</div>}>
+                <TestApi />
+              </Suspense>
+            </ErrorBoundary>
           </li>
         </ul>
       </div>
