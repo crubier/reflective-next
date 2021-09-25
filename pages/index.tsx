@@ -120,7 +120,7 @@ const Index = () => {
           <li>
             <ErrorBoundary
               FallbackComponent={createErrorFallback(
-                "Something went wrong when loading the component transpiled dynamically with SWC on the server. It is expected to fail on Vercel, but works locally:"
+                "Something went wrong when loading the component transpiled dynamically with SWC on the server. It fails on Vercel because SWC is a native module, but works locally:"
               )}
             >
               <Suspense fallback={<div>Loading...</div>}>
@@ -132,7 +132,7 @@ const Index = () => {
           <li>
             <ErrorBoundary
               FallbackComponent={createErrorFallback(
-                "Something went wrong when loading the component transpiled dynamically with Rollup on the server:"
+                "Something went wrong when loading the component transpiled dynamically with Rollup on the server. It fails on Vercel, not sure why :"
               )}
             >
               <Suspense fallback={<div>Loading...</div>}>
