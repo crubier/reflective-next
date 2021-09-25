@@ -30,7 +30,7 @@ const userNavigation = [
 function ErrorFallback({ error }: { error: { message: string } }) {
   return (
     <div role="alert">
-      <p>Something went wrong:</p>
+      <p>Something went wrong for this component:</p>
       <pre>{error.message}</pre>
     </div>
   );
