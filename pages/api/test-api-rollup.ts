@@ -27,7 +27,17 @@ const codeEntry = `import * as React from "react";
 const TestApiRollup = () => {
   return (
     <div>
-      <p>This component is loaded dynamically by dynamically transpiling a string containing Typescript code with Rollup and Babel in a NextJS API route.<br/>See ./pages/test-api-rollup.ts</p>
+      <p>
+        This component is loaded dynamically by dynamically transpiling a string containing Typescript code with Rollup and Babel in a NextJS API route.
+        <br />
+        🟢 Flexibility (The code can be generated at runtime dynamically)
+        <br />
+        🔴 Simplicity (Rollup + Babel configuration to manage)
+        <br />
+        🔴 Performance (Rollup and Babel transpilation at runtime, coded in JS, pretty slow)
+        <br />
+        See ./pages/test-api-rollup.ts
+      </p>
     </div>
   );
 };

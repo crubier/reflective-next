@@ -9,7 +9,17 @@ const codeEntry = `import * as React from "react";
 const TestApiSwc = () => {
   return (
     <div>
-      <p>This component is loaded dynamically by dynamically transpiling a string containing Typescript code with SWC in a NextJS API route.<br/>See ./pages/test-api-swc.ts</p>
+      <p>
+        This component is loaded dynamically by dynamically transpiling a string containing Typescript code with SWC in a NextJS API route.
+        <br />
+        🟢 Flexibility (The code can be generated at runtime dynamically)
+        <br />
+        🟡 Simplicity (SWC is pretty straightforward to use in bundle mode)
+        <br />
+        🟡 Performance (SWC is blazing fast, allowing to transpile at runtime without being too slow)
+        <br />
+        See ./pages/test-api-swc.ts
+      </p>
     </div>
   );
 };

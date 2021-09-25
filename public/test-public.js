@@ -1920,6 +1920,6 @@ var load2 = __spack_require__.bind(void 0, function (module, exports) {
 });
 var { createElement, createElement } = load2();
 var TestPublic = function () {
-    return (/*#__PURE__*/ createElement("div", null, /*#__PURE__*/ createElement("p", null, "This component is loaded dynamically from a static JS file in NextJS public folder, the file was transpiled manually.", /*#__PURE__*/ createElement("br", null), "See ./public/test-public.js")));
+    return (/*#__PURE__*/ createElement("div", null, /*#__PURE__*/ createElement("p", null, "This component is loaded dynamically from a static JS file in NextJS public folder, the file was transpiled manually.", /*#__PURE__*/ createElement("br", null), "🟡 Flexibility (The file can be changed on the server without rebuilding the app)", /*#__PURE__*/ createElement("br", null), "🔴 Simplicity (The file has to be transpiled manually before being exposed over http)", /*#__PURE__*/ createElement("br", null), "🟢 Performance (no transpilation at runtime)", /*#__PURE__*/ createElement("br", null), "See ./public/test-public.js")));
 };
 export { TestPublic as default };
