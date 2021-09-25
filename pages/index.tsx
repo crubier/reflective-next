@@ -132,7 +132,7 @@ const Index = () => {
           <li>
             <ErrorBoundary
               FallbackComponent={createErrorFallback(
-                "Something went wrong when loading the component transpiled dynamically with Rollup on the server. It fails on Vercel, not sure why :"
+                "Something went wrong when loading the component transpiled dynamically with Rollup on the server. It fails on Vercel with Error: Cannot find module '@babel/preset-react':"
               )}
             >
               <Suspense fallback={<div>Loading...</div>}>
