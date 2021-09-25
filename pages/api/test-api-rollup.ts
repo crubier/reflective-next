@@ -9,6 +9,15 @@ import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
 
+// @ts-ignore
+import babelPresetReact from '@babel/preset-react';
+// @ts-ignore
+import babelPresetTypescript from '@babel/preset-typescript';
+// @ts-ignore
+import babelPresetEnv from '@babel/preset-env';
+
+console.log(babelPresetReact, babelPresetTypescript, babelPresetEnv)
+
 
 import { promises } from "fs"
 // import { copy } from "fs-extra"
