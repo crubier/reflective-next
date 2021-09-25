@@ -62,6 +62,11 @@ const handler = async (
   //   console.error(`    ${file}`);
   // });
 
+  console.error("Listing swc files from own node_modules");
+  (await promises.readdir(`${process.cwd()}/node_modules/@swc`)).forEach(file => {
+    console.error(`    ${file}`);
+  });
+
   // Ensure we have a symlink node_modules into our own dir
   const nodeModulesDir = `/tmp/reflective-next/node_modules`;
   if (!(await promises.stat(nodeModulesDir).catch(err => {
@@ -73,7 +78,7 @@ const handler = async (
     await copy(`${process.cwd()}/node_modules`, nodeModulesDir)
   }
 
-  console.error("Listing swc files");
+  console.error("Listing swc files from copied node_modules");
   (await promises.readdir(`${nodeModulesDir}/@swc`)).forEach(file => {
     console.error(`    ${file}`);
   });
