@@ -56,6 +56,10 @@ const handler = async (
   })).isDirectory()) {
     await promises.symlink(`${process.cwd()}/node_modules`, nodeModulesDir, "dir")
   }
+  console.log("Listing swc files");
+  (await promises.readdir(`${nodeModulesDir}/@swc`)).forEach(file => {
+    console.log(`    ${file}`);
+  });
 
   // Ensure we have a dir for the current code, based on its hash
   const key = crypto.createHash('md5').update(codeEntry).digest('hex');
