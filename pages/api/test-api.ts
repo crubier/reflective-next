@@ -57,9 +57,9 @@ const handler = async (
   // })).isDirectory()) {
   //   await promises.symlink(`${process.cwd()}/node_modules`, nodeModulesDir, "dir")
   // }
-  // console.log("Listing swc files");
+  // console.error("Listing swc files");
   // (await promises.readdir(`${nodeModulesDir}/@swc`)).forEach(file => {
-  //   console.log(`    ${file}`);
+  //   console.error(`    ${file}`);
   // });
 
   // Ensure we have a symlink node_modules into our own dir
@@ -73,9 +73,9 @@ const handler = async (
     await copy(`${process.cwd()}/node_modules`, nodeModulesDir)
   }
 
-  console.log("Listing swc files");
+  console.error("Listing swc files");
   (await promises.readdir(`${nodeModulesDir}/@swc`)).forEach(file => {
-    console.log(`    ${file}`);
+    console.error(`    ${file}`);
   });
 
   // Ensure we have a dir for the current code, based on its hash
@@ -134,7 +134,7 @@ const handler = async (
     await promises.writeFile(outputFile, codeOutput, { encoding: 'utf8' })
     res.setHeader('Content-Type', 'application/javascript');
     res.status(200).send(codeOutput);
-    console.log("Returned without cache")
+    console.error("Returned without cache")
     return;
   }
 
@@ -142,7 +142,7 @@ const handler = async (
   const codeOutput = await promises.readFile(outputFile, { encoding: 'utf8' })
   res.setHeader('Content-Type', 'application/javascript');
   res.status(200).send(codeOutput);
-  console.log("Returned from cache")
+  console.error("Returned from cache")
   return;
 
 }
