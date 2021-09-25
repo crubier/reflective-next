@@ -4,6 +4,7 @@ import { promises } from "fs"
 import crypto from 'crypto';
 
 
+
 const codeEntry = `import * as React from "react";
 const TestApiSwc = () => {
   return (
@@ -23,6 +24,24 @@ const handler = async (
 
   const { "no-cache": noCache } = req.query;
   const mode = (process.env.NODE_ENV ?? "production");
+
+
+
+  // This block is necessary to prevent Vercel from unloading the swc packages from node_modules
+  try {
+    // @ts-ignore
+    console.log(await import(/* webpackIgnore: true */ "@swc/core-darwin-x64"))
+  } catch (e) { }
+  try {
+    // @ts-ignore
+    console.log(await import(/* webpackIgnore: true */ "@swc/core-linux-x64-musl"))
+  } catch (e) { }
+  try {
+    // @ts-ignore
+    console.log(await import(/* webpackIgnore: true */ "@swc/core-linux-x64-gnu"))
+  } catch (e) { }
+
+
 
   // Ensure we have a temp dir we can use
   const tempDir = `/tmp`;
