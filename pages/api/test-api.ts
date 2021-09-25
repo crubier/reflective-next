@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-// import { bundle } from "@swc/wasm";
 import { promises } from "fs"
-import { copy } from "fs-extra"
+// import { copy } from "fs-extra"
 import crypto from 'crypto';
 
 
@@ -47,38 +46,6 @@ const handler = async (
     await promises.mkdir(selfDir)
   }
 
-  // // Ensure we have a symlink node_modules into our own dir
-  // const nodeModulesDir = `/tmp/reflective-next/node_modules`;
-  // if (!(await promises.stat(nodeModulesDir).catch(err => {
-  //   if (err.code === "ENOENT") {
-  //     return { isDirectory: () => false }
-  //   };
-  //   throw err;
-  // })).isDirectory()) {
-  //   await promises.symlink(`${process.cwd()}/node_modules`, nodeModulesDir, "dir")
-  // }
-  // console.error("Listing swc files");
-  // (await promises.readdir(`${nodeModulesDir}/@swc`)).forEach(file => {
-  //   console.error(`    ${file}`);
-  // });
-
-  const nodeModulesLocation = require.resolve('@swc/core');
-  console.error("nodeModulesLocation", nodeModulesLocation);
-  console.error("__dirname", __dirname);
-  console.error("process.cwd()", process.cwd());
-
-
-  const nodeModulesList: string[] = [];
-
-  (await promises.readdir(`${process.cwd()}/node_modules`)).forEach(f => nodeModulesList.push(f));
-
-  console.error("nodeModulesList.length", nodeModulesList.length)
-
-  console.error("Listing @ files from own node_modules");
-  nodeModulesList.filter(f => f.startsWith("@")).forEach(file => {
-    console.error(`    ${file}`);
-  });
-
   // Ensure we have a symlink node_modules into our own dir
   const nodeModulesDir = `/tmp/reflective-next/node_modules`;
   if (!(await promises.stat(nodeModulesDir).catch(err => {
@@ -87,18 +54,20 @@ const handler = async (
     };
     throw err;
   })).isDirectory()) {
-    await copy(`${process.cwd()}/node_modules`, nodeModulesDir)
+    await promises.symlink(`${process.cwd()}/node_modules`, nodeModulesDir, "dir")
   }
 
-  console.error("Listing swc files from copied node_modules");
-  (await promises.readdir(`${nodeModulesDir}/@swc`)).forEach(file => {
-    console.error(`    ${file}`);
-  });
 
-  console.error("Listing next files from copied node_modules");
-  (await promises.readdir(`${nodeModulesDir}/@next`)).forEach(file => {
-    console.error(`    ${file}`);
-  });
+  // // OR Ensure we have a copy of node_modules into our own dir
+  // const nodeModulesDir = `/tmp/reflective-next/node_modules`;
+  // if (!(await promises.stat(nodeModulesDir).catch(err => {
+  //   if (err.code === "ENOENT") {
+  //     return { isDirectory: () => false }
+  //   };
+  //   throw err;
+  // })).isDirectory()) {
+  //   await copy(`${process.cwd()}/node_modules`, nodeModulesDir)
+  // }
 
   // Ensure we have a dir for the current code, based on its hash
   const key = crypto.createHash('md5').update(codeEntry).digest('hex');
@@ -131,32 +100,32 @@ const handler = async (
     };
     throw err;
   })).isFile()) {
-    // const transpilationOutput = await bundle({
-    //   entry: { main: entryFile },
-    //   output: { name: "mainOutput", path: outputFile },
-    //   target: "browser",
-    //   module: {
-    //   },
-    //   options: {
-    //     jsc: {
-    //       transform: {
-    //         optimizer: {
-    //           globals: {
-    //             vars: {
-    //               process: `{env:{NODE_ENV: "${mode}"}}`
-    //             }
-    //           }
-    //         }
-    //       }
-    //     },
-    //   },
-    // })
-    // const codeOutput = transpilationOutput.main.code;
-    const codeOutput = "";
+    const { bundle } = await import("@swc/core");
+    const transpilationOutput = await bundle({
+      entry: { main: entryFile },
+      output: { name: "mainOutput", path: outputFile },
+      target: "browser",
+      module: {
+      },
+      options: {
+        jsc: {
+          transform: {
+            optimizer: {
+              globals: {
+                vars: {
+                  process: `{env:{NODE_ENV: "${mode}"}}`
+                }
+              }
+            }
+          }
+        },
+      },
+    })
+    const codeOutput = transpilationOutput.main.code;
     await promises.writeFile(outputFile, codeOutput, { encoding: 'utf8' })
     res.setHeader('Content-Type', 'application/javascript');
     res.status(200).send(codeOutput);
-    console.error("Returned without cache")
+    console.log("Returned without cache")
     return;
   }
 
@@ -164,7 +133,7 @@ const handler = async (
   const codeOutput = await promises.readFile(outputFile, { encoding: 'utf8' })
   res.setHeader('Content-Type', 'application/javascript');
   res.status(200).send(codeOutput);
-  console.error("Returned from cache")
+  console.log("Returned from cache")
   return;
 
 }
