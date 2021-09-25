@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-// import { bundle } from "@swc/core";
+import { bundle } from "@swc/core";
 import { promises } from "fs"
+import { copy } from "fs-extra"
 import crypto from 'crypto';
 import { Mode } from '@swc/core/spack';
 
@@ -46,6 +47,21 @@ const handler = async (
     await promises.mkdir(selfDir)
   }
 
+  // // Ensure we have a symlink node_modules into our own dir
+  // const nodeModulesDir = `/tmp/reflective-next/node_modules`;
+  // if (!(await promises.stat(nodeModulesDir).catch(err => {
+  //   if (err.code === "ENOENT") {
+  //     return { isDirectory: () => false }
+  //   };
+  //   throw err;
+  // })).isDirectory()) {
+  //   await promises.symlink(`${process.cwd()}/node_modules`, nodeModulesDir, "dir")
+  // }
+  // console.log("Listing swc files");
+  // (await promises.readdir(`${nodeModulesDir}/@swc`)).forEach(file => {
+  //   console.log(`    ${file}`);
+  // });
+
   // Ensure we have a symlink node_modules into our own dir
   const nodeModulesDir = `/tmp/reflective-next/node_modules`;
   if (!(await promises.stat(nodeModulesDir).catch(err => {
@@ -54,8 +70,9 @@ const handler = async (
     };
     throw err;
   })).isDirectory()) {
-    await promises.symlink(`${process.cwd()}/node_modules`, nodeModulesDir, "dir")
+    await copy(`${process.cwd()}/node_modules`, nodeModulesDir)
   }
+
   console.log("Listing swc files");
   (await promises.readdir(`${nodeModulesDir}/@swc`)).forEach(file => {
     console.log(`    ${file}`);
@@ -92,27 +109,28 @@ const handler = async (
     };
     throw err;
   })).isFile()) {
-    // const transpilationOutput = await bundle({
-    //   entry: { main: entryFile },
-    //   output: { name: "mainOutput", path: outputFile },
-    //   target: "browser",
-    //   module: {
-    //   },
-    //   options: {
-    //     jsc: {
-    //       transform: {
-    //         optimizer: {
-    //           globals: {
-    //             vars: {
-    //               process: `{env:{NODE_ENV: "${mode}"}}`
-    //             }
-    //           }
-    //         }
-    //       }
-    //     },
-    //   },
-    // })
-    const codeOutput = "" // transpilationOutput.main.code;
+    const transpilationOutput = await bundle({
+      entry: { main: entryFile },
+      output: { name: "mainOutput", path: outputFile },
+      target: "browser",
+      module: {
+      },
+      options: {
+        jsc: {
+          transform: {
+            optimizer: {
+              globals: {
+                vars: {
+                  process: `{env:{NODE_ENV: "${mode}"}}`
+                }
+              }
+            }
+          }
+        },
+      },
+    })
+    const codeOutput = transpilationOutput.main.code;
+    // const codeOutput = "";
     await promises.writeFile(outputFile, codeOutput, { encoding: 'utf8' })
     res.setHeader('Content-Type', 'application/javascript');
     res.status(200).send(codeOutput);
