@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { bundle } from "@swc/core";
+// import { bundle } from "@swc/wasm";
 import { promises } from "fs"
 import { copy } from "fs-extra"
 import crypto from 'crypto';
-import { Mode } from '@swc/core/spack';
+
 
 const codeEntry = `import * as React from "react";
 const TestApi = () => {
@@ -23,7 +23,7 @@ const handler = async (
 ) => {
 
   const { "no-cache": noCache } = req.query;
-  const mode = (process.env.NODE_ENV ?? "production") as Mode;
+  const mode = (process.env.NODE_ENV ?? "production");
 
   // Ensure we have a temp dir we can use
   const tempDir = `/tmp`;
@@ -131,28 +131,28 @@ const handler = async (
     };
     throw err;
   })).isFile()) {
-    const transpilationOutput = await bundle({
-      entry: { main: entryFile },
-      output: { name: "mainOutput", path: outputFile },
-      target: "browser",
-      module: {
-      },
-      options: {
-        jsc: {
-          transform: {
-            optimizer: {
-              globals: {
-                vars: {
-                  process: `{env:{NODE_ENV: "${mode}"}}`
-                }
-              }
-            }
-          }
-        },
-      },
-    })
-    const codeOutput = transpilationOutput.main.code;
-    // const codeOutput = "";
+    // const transpilationOutput = await bundle({
+    //   entry: { main: entryFile },
+    //   output: { name: "mainOutput", path: outputFile },
+    //   target: "browser",
+    //   module: {
+    //   },
+    //   options: {
+    //     jsc: {
+    //       transform: {
+    //         optimizer: {
+    //           globals: {
+    //             vars: {
+    //               process: `{env:{NODE_ENV: "${mode}"}}`
+    //             }
+    //           }
+    //         }
+    //       }
+    //     },
+    //   },
+    // })
+    // const codeOutput = transpilationOutput.main.code;
+    const codeOutput = "";
     await promises.writeFile(outputFile, codeOutput, { encoding: 'utf8' })
     res.setHeader('Content-Type', 'application/javascript');
     res.status(200).send(codeOutput);
