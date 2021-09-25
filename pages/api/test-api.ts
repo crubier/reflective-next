@@ -67,6 +67,11 @@ const handler = async (
   console.error("__dirname", __dirname);
   console.error("process.cwd()", process.cwd());
 
+  console.error("Listing all files from own node_modules");
+  (await promises.readdir(`${process.cwd()}/node_modules`)).forEach(file => {
+    console.error(`    ${file}`);
+  });
+
   console.error("Listing swc files from own node_modules");
   (await promises.readdir(`${process.cwd()}/node_modules/@swc`)).forEach(file => {
     console.error(`    ${file}`);
