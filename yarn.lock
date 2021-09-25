@@ -273,6 +273,12 @@
   resolved "https://registry.yarnpkg.com/@swc/core-linux-arm64-musl/-/core-linux-arm64-musl-1.2.90.tgz#6d9e2a9027aab0918f92d0a0d94ab23c69bb91b9"
   integrity sha512-j51eIDi7TJryp1M9bxpewnO+kvsm5PQINzPohFNhjfJ2Cn1Ug90Nz5H8O0urC0ye/fs6JhvpLC2rl8EnT33Plw==
 
+"@swc/core-linux-musl @1.2.42":
+  name "@swc/core-linux-musl"
+  version "1.2.42"
+  resolved "https://registry.yarnpkg.com/@swc/core-linux-musl/-/core-linux-musl-1.2.42.tgz#3cd5f565bce5763a92cf3f7b55b9906df2dcc3eb"
+  integrity sha512-pXl7+nPYFbYI31Uj9U2GNZkrJGcHobGncF8mGEAfDFUAulLlWf98HnS1+GfxgP05cxbAn4RwetlaneQqeGxBaA==
+
 "@swc/core-linux-x64-gnu@1.2.90":
   version "1.2.90"
   resolved "https://registry.yarnpkg.com/@swc/core-linux-x64-gnu/-/core-linux-x64-gnu-1.2.90.tgz#eee15fc8664e70b94ea2e53d9e084dbc0b4f9c30"

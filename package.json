@@ -34,5 +34,8 @@
   },
   "devDependencies": {
     "@types/fs-extra": "9.0.13"
+  },
+  "optionalDependencies": {
+    "@swc/core-linux-musl ": "1.2.42"
   }
 }
