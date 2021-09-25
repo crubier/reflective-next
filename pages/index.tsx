@@ -42,7 +42,8 @@ const TestPublic = dynamic(
 
 const TestApi = dynamic(
   // @ts-ignore
-  () => import(/* webpackIgnore: true */ "/api/test-api?no-cache"),
+  // () => import(/* webpackIgnore: true */ "/api/test-api?no-cache"),
+  () => import(/* webpackIgnore: true */ "/api/test-api"),
   {
     ssr: false,
     suspense: true,

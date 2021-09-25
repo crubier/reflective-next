@@ -23,10 +23,9 @@ const handler = async (
 
   const { "no-cache": noCache } = req.query;
   const mode = (process.env.NODE_ENV ?? "production") as Mode;
-  console.log(mode)
 
-  // Ensure we have a temp dir to let swc work on
-  const tempDir = `${process.cwd()}/temp`;
+  // Ensure we have a temp dir we can use
+  const tempDir = `/tmp`;
   if (!(await promises.stat(tempDir).catch(err => {
     if (err.code === "ENOENT") {
       return { isDirectory: () => false }
@@ -36,9 +35,31 @@ const handler = async (
     await promises.mkdir(tempDir)
   }
 
+  // Ensure we have our own dir in the temp dir to let swc work on
+  const selfDir = `/tmp/reflective-next`;
+  if (!(await promises.stat(selfDir).catch(err => {
+    if (err.code === "ENOENT") {
+      return { isDirectory: () => false }
+    };
+    throw err;
+  })).isDirectory()) {
+    await promises.mkdir(selfDir)
+  }
+
+  // Ensure we have a symlink node_modules into our own dir
+  const nodeModulesDir = `/tmp/reflective-next/node_modules`;
+  if (!(await promises.stat(nodeModulesDir).catch(err => {
+    if (err.code === "ENOENT") {
+      return { isDirectory: () => false }
+    };
+    throw err;
+  })).isDirectory()) {
+    await promises.symlink(`${process.cwd()}/node_modules`, nodeModulesDir, "dir")
+  }
+
   // Ensure we have a dir for the current code, based on its hash
   const key = crypto.createHash('md5').update(codeEntry).digest('hex');
-  const keyDir = `${tempDir}/${key}`
+  const keyDir = `${selfDir}/${key}`
   if (!(await promises.stat(keyDir).catch(err => {
     if (err.code === "ENOENT") {
       return { isDirectory: () => false }
@@ -91,12 +112,15 @@ const handler = async (
     await promises.writeFile(outputFile, codeOutput, { encoding: 'utf8' })
     res.setHeader('Content-Type', 'application/javascript');
     res.status(200).send(codeOutput);
+    console.log("Returned without cache")
     return;
   }
 
+  // Return the content of the cached file
   const codeOutput = await promises.readFile(outputFile, { encoding: 'utf8' })
   res.setHeader('Content-Type', 'application/javascript');
   res.status(200).send(codeOutput);
+  console.log("Returned from cache")
   return;
 
 }
