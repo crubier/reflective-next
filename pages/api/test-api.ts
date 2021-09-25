@@ -62,18 +62,20 @@ const handler = async (
   //   console.error(`    ${file}`);
   // });
 
-  const nodeModulesLocation = require.resolve('next');
+  const nodeModulesLocation = require.resolve('@swc/core');
   console.error("nodeModulesLocation", nodeModulesLocation);
   console.error("__dirname", __dirname);
   console.error("process.cwd()", process.cwd());
 
-  console.error("Listing all files from own node_modules");
-  (await promises.readdir(`${process.cwd()}/node_modules`)).forEach(file => {
-    console.error(`    ${file}`);
-  });
 
-  console.error("Listing swc files from own node_modules");
-  (await promises.readdir(`${process.cwd()}/node_modules/@swc`)).forEach(file => {
+  const nodeModulesList: string[] = [];
+
+  (await promises.readdir(`${process.cwd()}/node_modules`)).forEach(f => nodeModulesList.push(f));
+
+  console.error("nodeModulesList.length", nodeModulesList.length)
+
+  console.error("Listing @ files from own node_modules");
+  nodeModulesList.filter(f => f.startsWith("@")).forEach(file => {
     console.error(`    ${file}`);
   });
 
