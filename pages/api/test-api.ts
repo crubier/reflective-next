@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { bundle } from "@swc/core";
+// import { bundle } from "@swc/core";
 import { promises } from "fs"
 import { copy } from "fs-extra"
 import crypto from 'crypto';
@@ -109,28 +109,28 @@ const handler = async (
     };
     throw err;
   })).isFile()) {
-    const transpilationOutput = await bundle({
-      entry: { main: entryFile },
-      output: { name: "mainOutput", path: outputFile },
-      target: "browser",
-      module: {
-      },
-      options: {
-        jsc: {
-          transform: {
-            optimizer: {
-              globals: {
-                vars: {
-                  process: `{env:{NODE_ENV: "${mode}"}}`
-                }
-              }
-            }
-          }
-        },
-      },
-    })
-    const codeOutput = transpilationOutput.main.code;
-    // const codeOutput = "";
+    // const transpilationOutput = await bundle({
+    //   entry: { main: entryFile },
+    //   output: { name: "mainOutput", path: outputFile },
+    //   target: "browser",
+    //   module: {
+    //   },
+    //   options: {
+    //     jsc: {
+    //       transform: {
+    //         optimizer: {
+    //           globals: {
+    //             vars: {
+    //               process: `{env:{NODE_ENV: "${mode}"}}`
+    //             }
+    //           }
+    //         }
+    //       }
+    //     },
+    //   },
+    // })
+    // const codeOutput = transpilationOutput.main.code;
+    const codeOutput = "";
     await promises.writeFile(outputFile, codeOutput, { encoding: 'utf8' })
     res.setHeader('Content-Type', 'application/javascript');
     res.status(200).send(codeOutput);
