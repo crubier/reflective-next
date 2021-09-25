@@ -1,4 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { promises } from "fs"
+// import { copy } from "fs-extra"
+import crypto from 'crypto';
 
 import * as rollup from "rollup";
 // import sucrase from '@rollup/plugin-sucrase';
@@ -9,19 +12,15 @@ import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
 
+// This block is necessary to prevent Vercel from unloading the babel presets from node_modules
 // @ts-ignore
 import babelPresetReact from '@babel/preset-react';
 // @ts-ignore
 import babelPresetTypescript from '@babel/preset-typescript';
 // @ts-ignore
 import babelPresetEnv from '@babel/preset-env';
-
+// @ts-ignore
 console.log(babelPresetReact, babelPresetTypescript, babelPresetEnv)
-
-
-import { promises } from "fs"
-// import { copy } from "fs-extra"
-import crypto from 'crypto';
 
 
 const codeEntry = `import * as React from "react";
