@@ -61,7 +61,7 @@ const Index = () => {
           </h1>
           <p>
             Demonstrating various ways of importing dynamically-generated React
-            components in NextJS.
+            components in NextJS. (The last one is the best!)
           </p>
           <p>
             See{" "}
