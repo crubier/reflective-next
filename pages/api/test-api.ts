@@ -95,6 +95,11 @@ const handler = async (
     console.error(`    ${file}`);
   });
 
+  console.error("Listing next files from copied node_modules");
+  (await promises.readdir(`${nodeModulesDir}/@next`)).forEach(file => {
+    console.error(`    ${file}`);
+  });
+
   // Ensure we have a dir for the current code, based on its hash
   const key = crypto.createHash('md5').update(codeEntry).digest('hex');
   const keyDir = `${selfDir}/${key}`
